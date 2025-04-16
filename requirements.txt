@@ -3,3 +3,6 @@ streamlit
 pandas
 python-dotenv
 matplotlib
+yfinance
+pandas_datareader
+plotly
