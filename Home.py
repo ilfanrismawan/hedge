@@ -13,7 +13,7 @@ STOP_LOSS_PERCENT = 1.5
 TAKE_PROFIT_PERCENT = 2.0
 symbol = 'BTC/USDT'
 
-exchange_ids = ['binance', 'kraken', 'coinbase', 'bitfinex', 'indodax']
+exchange_ids = ['binance', 'kraken', 'coinbase', 'bitfinex', 'indodax', 'okx', 'bybit', 'tokocrypto']
 
 # Daftar pair yang bisa dipilih
 available_pairs = ['BTC/USDT', 'ETH/USDT', 'BNB/USDT', 'ADA/USDT', 'XRP/USDT', 'LTC/USDT','DOGE/USDT','SOL/USDT','BTC/EUR', 'ETH/BTC']
@@ -74,13 +74,21 @@ with st.spinner("Mengambil data harga dari exchange..."):
 
 # === Tampilkan harga ===
 st.subheader(f"💰 Harga {symbol.split("/")[0]} Saat Ini:")
-price_cols = st.columns(len(exchange_ids))
-for i, exchange in enumerate(exchange_ids):
-    price = prices.get(exchange)
-    if price:
-        price_cols[i].metric(label=exchange.upper(), value=f"${price:,.2f}")
-    else:
-        price_cols[i].write(f"{exchange.upper()}: ⚠️")
+
+# Fungsi bantu: pecah jadi grup berisi maksimal 3 item
+def chunked(lst, n):
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+# Tampilkan per baris (3 kolom per baris)
+for row in chunked(exchange_ids, 4):
+    cols = st.columns(len(row))
+    for i, exchange in enumerate(row):
+        price = prices.get(exchange)
+        if price:
+            cols[i].metric(label=exchange.upper(), value=f"${price:,.2f}")
+        else:
+            cols[i].write(f"{exchange.upper()}: ⚠️")
 
 
 # === Analisis arbitrase ===
