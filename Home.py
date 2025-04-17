@@ -4,7 +4,6 @@ import asyncio
 import time
 st.set_page_config(page_title="Crypto Arbitrage Bot", layout="centered")
 
-# st.sidebar.success("Select a demo above.")
 
 # === Konfigurasi Manajemen Risiko ===
 MAX_RISK_PER_TRADE_USD = 500
